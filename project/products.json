@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "name": "Ferrari 488 GTB",
+    "price": 280000,
+    "image": "https://i.pinimg.com/1200x/14/73/15/1473157e6f68f2d6bf1a4c5234107565.jpg",
+    "description": "A V8-powered supercar delivering exceptional speed and precision."
+  },
+  {
+    "id": 2,
+    "name": "Ferrari SF90 Stradale",
+    "price": 625000,
+    "image": "https://i.pinimg.com/736x/ff/a2/67/ffa267165e2fe19012ab53761b7fe538.jpg",
+    "description": "Ferrari’s hybrid hypercar with 986 horsepower and futuristic design."
+  },
+  {
+    "id": 3,
+    "name": "Ferrari F8 Tributo",
+    "price": 375000,
+    "image": "https://i.pinimg.com/736x/dd/ea/4a/ddea4ace7190443e9a62dc4cb8c05e03.jpg",
+    "description": "High-performance V8 tribute model with remarkable aerodynamics."
+  },
+  {
+    "id": 4,
+    "name": "Ferrari Roma",
+    "price": 222000,
+    "image": "https://i.pinimg.com/736x/75/85/4d/75854df5ee3e9f1ed6974363c047d58c.jpg",
+    "description": "A grand tourer with elegant styling and a smooth V8 engine."
+  },
+  {
+    "id": 5,
+    "name": "Ferrari Portofino M",
+    "price": 245000,
+    "image": "https://i.pinimg.com/1200x/20/7c/66/207c669aba7eb8fdb0d4f37b4c7891f2.jpg",
+    "description": "A convertible GT with refined performance and open-top luxury."
+  },
+  {
+    "id": 6,
+    "name": "Ferrari 812 Superfast",
+    "price": 365000,
+    "image": "https://i.pinimg.com/1200x/e3/59/d9/e359d9149a7bc2179788b100bf50a11c.jpg",
+    "description": "One of the most powerful V12 grand tourers ever created."
+  },
+  {
+    "id": 7,
+    "name": "Ferrari 812 GTS",
+    "price": 397000,
+    "image": "https://i.pinimg.com/736x/93/c4/1c/93c41cdfb643d1c7ed5caa86ebabfbba.jpg",
+    "description": "A V12 convertible delivering unmatched sound and performance."
+  },
+  {
+    "id": 8,
+    "name": "Ferrari LaFerrari",
+    "price": 1500000,
+    "image": "https://i.pinimg.com/1200x/3c/b7/8d/3cb78dfc85a09819d2ee6ef9e02183a2.jpg",
+    "description": "A hybrid hypercar masterpiece limited to only 499 units."
+  },
+  {
+    "id": 9,
+    "name": "Ferrari Enzo",
+    "price": 2800000,
+    "image": "https://i.pinimg.com/1200x/36/64/47/366447a941e8f8206862260468b19305.jpg",
+    "description": "Iconic V12 supercar named after the company’s founder."
+  },
+  {
+    "id": 10,
+    "name": "Ferrari Testarossa",
+    "price": 120000,
+    "image": "https://i.pinimg.com/1200x/36/2d/d1/362dd10266ddc74d993495832f0e590b.jpg",
+    "description": "Classic 80s supercar with legendary side strakes and flat-12 engine."
+  },
+  {
+    "id": 11,
+    "name": "Ferrari Testarossa",
+    "price": 120000,
+    "image": "https://i.pinimg.com/1200x/36/2d/d1/362dd10266ddc74d993495832f0e590b.jpg",
+    "description": "Classic 80s supercar with legendary side strakes and flat-12 engine."
+  },
+  {
+    "id": 12,
+    "name": "Ferrari Testarossa",
+    "price": 120000,
+    "image": "https://i.pinimg.com/1200x/36/2d/d1/362dd10266ddc74d993495832f0e590b.jpg",
+    "description": "Classic 80s supercar with legendary side strakes and flat-12 engine."
+  }
+]

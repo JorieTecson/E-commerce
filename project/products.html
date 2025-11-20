@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Products - Ferrari Cars</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+   <style>
+        /* Enhanced navbar styling - matching index.html */
+        .navbar {
+            padding: 1.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            font-size: 1.2rem;
+            padding: 0.5rem 1.5rem !important;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            transform: translateY(-2px);
+        }
+
+        /* Page header styling */
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1620656798576-8d2d6c081307?q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0;
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #d40000;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Product Card Styles */
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 30px;
+            background: white;
+            overflow: hidden;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .product-card img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .product-card img:hover {
+            transform: scale(1.05);
+        }
+        .product-card-body {
+            padding: 20px;
+        }
+        .product-card h3 {
+            font-size: 1.5rem;
+            color: #d40000;
+            margin-bottom: 10px;
+        }
+        .product-card .price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #d40000;
+            margin-bottom: 15px;
+        }
+        .product-card .description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        /* Cart Sidebar Styles */
+        #cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+            transition: right 0.3s;
+            z-index: 1050;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        #cart-sidebar.active {
+            right: 0;
+        }
+        #cart-sidebar h3 {
+            margin-bottom: 20px;
+            color: #d40000;
+            border-bottom: 2px solid #d40000;
+            padding-bottom: 10px;
+        }
+        #cart-items li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        #cart-items button {
+            background: #d40000;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            padding: 2px 6px;
+            cursor: pointer;
+        }
+        #cart-toggle {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background: #d40000;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px 0 0 5px;
+            cursor: pointer;
+            z-index: 1060;
+            font-weight: bold;
+        }
+        .cart-total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #ddd;
+            text-align: right;
+        }
+        
+        /* Product Details Modal Styles */
+        .product-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1100;
+            overflow-y: auto;
+        }
+        .product-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+            z-index: 10;
+            background: rgba(255,255,255,0.8);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-body {
+            padding: 30px;
+        }
+        .product-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .product-image {
+            flex: 1;
+            min-width: 300px;
+        }
+        .product-image img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .product-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        .product-info h2 {
+            color: #d40000;
+            margin-bottom: 15px;
+        }
+        .product-info .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #d40000;
+            margin-bottom: 20px;
+        }
+        .product-info .description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .product-specs {
+            margin-top: 20px;
+        }
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .spec-label {
+            font-weight: bold;
+        }
+        .action-buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+        .btn-cart {
+            background-color: #d40000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-cart:hover {
+            background-color: #b30000;
+        }
+        .btn-buy {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-buy:hover {
+            background-color: #111;
+        }
+        
+        /* Search Styles */
+        .search-container {
+            margin-bottom: 30px;
+        }
+        .search-input {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.8rem;
+            }
+            
+            .nav-link {
+                font-size: 1.1rem;
+                padding: 0.4rem 1rem !important;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            #cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            .modal-content {
+                width: 95%;
+            }
+            .product-details {
+                flex-direction: column;
+            }
+            .navbar .d-flex {
+                margin-top: 10px;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+            
+            .nav-link {
+                font-size: 1rem;
+                padding: 0.3rem 0.8rem !important;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Ferrari</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="products.html">Products</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search" id="search-form">
+                    <input class="form-control me-2" type="search" placeholder="Search Ferrari models..." aria-label="Search" id="search-input" />
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <h1 class="mb-4 text-center">Ferrari Cars Collection</h1>
+        
+        <!-- Search Results Info -->
+        <div class="search-results" id="search-results">
+            <!-- Search results info will be displayed here -->
+        </div>
+        
+        <div class="row g-4" id="products-container">
+            <!-- Products loaded here -->
+        </div>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div class="product-modal" id="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div class="modal-body">
+                <div class="product-details" id="product-details">
+                    <!-- Product details will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Toggle Button -->
+    <div id="cart-toggle">Cart (<span id="cart-count">0</span>)</div>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar">
+        <h3>Your Cart</h3>
+        <ul id="cart-items"></ul>
+        <p>Total: $<span id="cart-total">0</span></p>
+        <button class="btn btn-danger w-100" id="checkout-btn">Checkout</button>
+    </div>
+
+    <script>
+        let cart = [];
+        let productsData = [];
+        let filteredProducts = [];
+
+        // Sample product data
+        const productsJson = [
+            {
+                "id": 1,
+                "name": "Ferrari 488 GTB",
+                "price": 280000,
+                "image": "https://i.pinimg.com/1200x/14/73/15/1473157e6f68f2d6bf1a4c5234107565.jpg",
+                "description": "A V8-powered supercar delivering exceptional speed and precision."
+            },
+            {
+                "id": 2,
+                "name": "Ferrari SF90 Stradale",
+                "price": 625000,
+                "image": "https://i.pinimg.com/736x/ff/a2/67/ffa267165e2fe19012ab53761b7fe538.jpg",
+                "description": "Ferrari's hybrid hypercar with 986 horsepower and futuristic design."
+            },
+            {
+                "id": 3,
+                "name": "Ferrari F8 Tributo",
+                "price": 375000,
+                "image": "https://i.pinimg.com/736x/dd/ea/4a/ddea4ace7190443e9a62dc4cb8c05e03.jpg",
+                "description": "High-performance V8 tribute model with remarkable aerodynamics."
+            },
+            {
+                "id": 4,
+                "name": "Ferrari Roma",
+                "price": 222000,
+                "image": "https://i.pinimg.com/736x/75/85/4d/75854df5ee3e9f1ed6974363c047d58c.jpg",
+                "description": "A grand tourer with elegant styling and a smooth V8 engine."
+            },
+            {
+                "id": 5,
+                "name": "Ferrari Portofino M",
+                "price": 245000,
+                "image": "https://i.pinimg.com/1200x/20/7c/66/207c669aba7eb8fdb0d4f37b4c7891f2.jpg",
+                "description": "A convertible GT with refined performance and open-top luxury."
+            },
+            {
+                "id": 6,
+                "name": "Ferrari 812 Superfast",
+                "price": 365000,
+                "image": "https://i.pinimg.com/1200x/e3/59/d9/e359d9149a7bc2179788b100bf50a11c.jpg",
+                "description": "One of the most powerful V12 grand tourers ever created."
+            },
+            {
+                "id": 7,
+                "name": "Ferrari 812 GTS",
+                "price": 397000,
+                "image": "https://i.pinimg.com/736x/93/c4/1c/93c41cdfb643d1c7ed5caa86ebabfbba.jpg",
+                "description": "A V12 convertible delivering unmatched sound and performance."
+            },
+            {
+                "id": 8,
+                "name": "Ferrari LaFerrari",
+                "price": 1500000,
+                "image": "https://i.pinimg.com/1200x/3c/b7/8d/3cb78dfc85a09819d2ee6ef9e02183a2.jpg",
+                "description": "A hybrid hypercar masterpiece limited to only 499 units."
+            },
+            {
+                "id": 9,
+                "name": "Ferrari Enzo",
+                "price": 2800000,
+                "image": "https://i.pinimg.com/1200x/36/64/47/366447a941e8f8206862260468b19305.jpg",
+                "description": "Iconic V12 supercar named after the company's founder."
+            },
+            {
+                "id": 10,
+                "name": "Ferrari Testarossa",
+                "price": 120000,
+                "image": "https://i.pinimg.com/1200x/36/2d/d1/362dd10266ddc74d993495832f0e590b.jpg",
+                "description": "Classic 80s supercar with legendary side strakes and flat-12 engine."
+            }
+        ];
+
+        // Load products from JSON
+        function loadProducts(products) {
+            productsData = products;
+            filteredProducts = [...products];
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const container = document.getElementById('products-container');
+            const resultsInfo = document.getElementById('search-results');
+            
+            // Clear previous content
+            container.innerHTML = '';
+            
+            // Update search results info
+            if (filteredProducts.length === 0) {
+                resultsInfo.innerHTML = `
+                    <div class="no-results">
+                        <h3>No products found</h3>
+                        <p>Try adjusting your search terms</p>
+                    </div>
+                `;
+            } else if (filteredProducts.length < productsData.length) {
+                resultsInfo.innerHTML = `
+                    <div class="alert alert-info">
+                        Showing ${filteredProducts.length} of ${productsData.length} products
+                    </div>
+                `;
+            } else {
+                resultsInfo.innerHTML = '';
+            }
+            
+            // Render products
+            filteredProducts.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'col-sm-6 col-md-4 col-lg-3';
+
+                card.innerHTML = `
+                    <div class="product-card p-3">
+                        <img src="${product.image}" alt="${product.name}" class="img-fluid" onclick="showProductDetails(${product.id})" />
+                        <h5 class="mt-3">${product.name}</h5>
+                        <p>${product.description}</p>
+                        <p><strong>$${product.price.toLocaleString()}</strong></p>
+                        <button class="btn btn-danger w-100" onclick="addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Search functionality
+        function searchProducts(query) {
+            if (!query.trim()) {
+                filteredProducts = [...productsData];
+            } else {
+                const searchTerm = query.toLowerCase();
+                filteredProducts = productsData.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm) || 
+                    product.description.toLowerCase().includes(searchTerm)
+                );
+            }
+            renderProducts();
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts(productsJson);
+            
+            // Search form handler
+            document.getElementById('search-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const query = document.getElementById('search-input').value;
+                searchProducts(query);
+            });
+            
+            // Real-time search as user types
+            document.getElementById('search-input').addEventListener('input', function() {
+                const query = this.value;
+                searchProducts(query);
+            });
+        });
+
+        function showProductDetails(id) {
+            const product = productsData.find(p => p.id === id);
+            if (!product) return;
+            
+            const detailsContainer = document.getElementById('product-details');
+            
+            // Generate random specs for demonstration
+            const specs = {
+                "Engine": getRandomEngine(),
+                "Horsepower": getRandomHorsepower(),
+                "0-60 mph": getRandomAcceleration(),
+                "Top Speed": getRandomTopSpeed(),
+                "Transmission": getRandomTransmission(),
+                "Drive Type": "Rear-wheel drive"
+            };
+            
+            detailsContainer.innerHTML = `
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.name}" />
+                </div>
+                <div class="product-info">
+                    <h2>${product.name}</h2>
+                    <div class="price">$${product.price.toLocaleString()}</div>
+                    <div class="description">${product.description}</div>
+                    
+                    <div class="product-specs">
+                        <h4>Specifications</h4>
+                        ${Object.entries(specs).map(([key, value]) => `
+                            <div class="spec-item">
+                                <span class="spec-label">${key}</span>
+                                <span>${value}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn-cart" onclick="addToCart(${product.id}); closeModal();">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                        <button class="btn-buy" onclick="buyNow(${product.id})">
+                            <i class="fas fa-bolt"></i> Buy Now
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('product-modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal').classList.remove('active');
+        }
+
+        // Helper functions for generating random specs
+        function getRandomEngine() {
+            const engines = ["V8 Twin-Turbo", "V12", "V8", "V6 Hybrid", "V12 Hybrid"];
+            return engines[Math.floor(Math.random() * engines.length)];
+        }
+
+        function getRandomHorsepower() {
+            const hpValues = ["720 hp", "789 hp", "661 hp", "986 hp", "769 hp", "800 hp"];
+            return hpValues[Math.floor(Math.random() * hpValues.length)];
+        }
+
+        function getRandomAcceleration() {
+            const accValues = ["2.9 seconds", "3.0 seconds", "3.2 seconds", "2.5 seconds", "3.4 seconds"];
+            return accValues[Math.floor(Math.random() * accValues.length)];
+        }
+
+        function getRandomTopSpeed() {
+            const speedValues = ["211 mph", "205 mph", "199 mph", "217 mph", "220 mph"];
+            return speedValues[Math.floor(Math.random() * speedValues.length)];
+        }
+
+        function getRandomTransmission() {
+            const transmissions = ["7-speed dual-clutch", "8-speed dual-clutch", "7-speed automatic"];
+            return transmissions[Math.floor(Math.random() * transmissions.length)];
+        }
+
+        function addToCart(id) {
+            const product = productsData.find(p => p.id === id);
+            if (product) {
+                cart.push(product);
+                updateCart();
+                alert(`${product.name} added to cart!`);
+            }
+        }
+
+        function buyNow(id) {
+            const product = productsData.find(p => p.id === id);
+            if (product) {
+                alert(`Thank you for purchasing the ${product.name}! Total: $${product.price.toLocaleString()}`);
+                closeModal();
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const cartCount = document.getElementById('cart-count');
+
+            cartItems.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    ${item.name} - $${item.price.toLocaleString()}
+                    <button onclick="removeFromCart(${index})">Remove</button>
+                `;
+                cartItems.appendChild(li);
+            });
+
+            cartTotal.textContent = total.toLocaleString();
+            cartCount.textContent = cart.length;
+        }
+
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            if(cart.length === 0){
+                alert('Your cart is empty!');
+                return;
+            }
+            alert(`Thank you for your purchase! Total: $${cart.reduce((sum, item) => sum + item.price, 0).toLocaleString()}`);
+            cart = [];
+            updateCart();
+        });
+
+        // Cart sidebar toggle
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartToggle = document.getElementById('cart-toggle');
+        cartToggle.addEventListener('click', () => {
+            cartSidebar.classList.toggle('active');
+        });
+
+        // Close modal when clicking the X button
+        document.getElementById('close-modal').addEventListener('click', closeModal);
+
+        // Close modal when clicking outside the modal content
+        document.getElementById('product-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'product-modal') {
+                closeModal();
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
